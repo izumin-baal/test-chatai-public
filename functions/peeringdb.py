@@ -14,7 +14,7 @@ def get_peeringdb_net_info(asn=None, name=None):
     if asn:
         params["asn"] = asn
     if name:
-        params["name"] = name
+        params["name__contains"] = name
 
     response = requests.get(API_URL, params=params)
     

@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  minsys-chatai:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: minsys-chatai
+    environment:
+      - DISCORD_BOT_CHATAI_CLIENT_SECRET=${DISCORD_BOT_CHATAI_CLIENT_SECRET}
+      - OPENAI_CHATAI_API_KEYS=${OPENAI_CHATAI_API_KEYS}
+      - BGP_ROUTER_HOST=${BGP_ROUTER_HOST}
+      - BGP_ROUTER_USER=${BGP_ROUTER_USER}
+      - BGP_ROUTER_PASS=${BGP_ROUTER_PASS}
+    volumes:
+      - ./logs:/opt/minsys-chatai/logs
+      - ./instructions:/opt/minsys-chatai/instructions
+    restart: always
+    command: python main.py
+
+  memory-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: minsys-chatai-memory
+    environment:
+      - OPENAI_CHATAI_API_KEYS=${OPENAI_CHATAI_API_KEYS}
+    volumes:
+      - ./logs:/opt/minsys-chatai/logs
+      - ./instructions:/opt/minsys-chatai/instructions
+    restart: always
+    command: python memory.py
